@@ -1,0 +1,24 @@
+meta {
+  name: Register user
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseurl}}/users/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"ramanuj",
+    "email":"1975ramanuj@gmail.com",
+    "password":"password",
+    "role":"seller"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

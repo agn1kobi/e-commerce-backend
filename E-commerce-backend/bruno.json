@@ -4,6 +4,16 @@
   "type": "collection",
   "ignore": [
     "node_modules",
-    ".git"
+    ".git",
+    "target",
+    ".vscode",
+    ".mvn",
+    ".idea",
+    ".gitignore",
+    ".gitattributtes",
+    "README.md",
+    "pom.xml",
+    "mvnw",
+    "mvnw.cmd"
   ]
 }
