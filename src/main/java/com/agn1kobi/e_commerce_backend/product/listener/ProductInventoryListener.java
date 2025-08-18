@@ -4,10 +4,11 @@ import com.agn1kobi.e_commerce_backend.order.event.OrderCreatedEvent;
 import com.agn1kobi.e_commerce_backend.product.model.ProductEntity;
 import com.agn1kobi.e_commerce_backend.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class ProductInventoryListener {
     private final ProductRepository productRepository;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onOrderCreated(final OrderCreatedEvent event) {
         for (OrderCreatedEvent.OrderLine line : event.lines()) {
             Optional<ProductEntity> maybe = productRepository.findById(line.productId());

@@ -9,7 +9,7 @@ import com.agn1kobi.e_commerce_backend.order.model.OrderEntity;
 import com.agn1kobi.e_commerce_backend.order.model.OrderLineEntity;
 import com.agn1kobi.e_commerce_backend.order.repository.OrderLineRepository;
 import com.agn1kobi.e_commerce_backend.order.repository.OrderRepository;
-import com.agn1kobi.e_commerce_backend.product.service.api.ProductPricingService;
+import com.agn1kobi.e_commerce_backend.product.service.ProductPricingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

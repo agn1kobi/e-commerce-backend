@@ -1,4 +1,4 @@
-package com.agn1kobi.e_commerce_backend.product.service.api;
+package com.agn1kobi.e_commerce_backend.product.service;
 
 import java.util.List;
 import java.util.Map;

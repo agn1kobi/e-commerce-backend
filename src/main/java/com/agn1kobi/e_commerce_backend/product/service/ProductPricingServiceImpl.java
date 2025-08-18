@@ -2,7 +2,6 @@ package com.agn1kobi.e_commerce_backend.product.service;
 
 import com.agn1kobi.e_commerce_backend.product.model.ProductEntity;
 import com.agn1kobi.e_commerce_backend.product.repository.ProductRepository;
-import com.agn1kobi.e_commerce_backend.product.service.api.ProductPricingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
