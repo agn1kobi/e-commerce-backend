@@ -5,7 +5,7 @@ meta {
 }
 
 get {
-  url: {{baseurl}}/users/register?email=1975ramanuj@gmail.com&password={{password}}
+  url: {{baseurl}}/users/login?email=1975ramanuj@gmail.com&password={{password}}
   body: none
   auth: none
 }
@@ -16,7 +16,9 @@ params:query {
 }
 
 script:post-response {
-  bru.setEnvVar("bearer",res.body.Bearer)
+  // Save the JWT token returned by the API into the environment as 'bearer'
+  // The controller returns: { token: "...", tokenType: "Bearer" }
+  bru.setEnvVar("bearer", res.body.token)
 }
 
 settings {

@@ -27,4 +27,5 @@ replay_pid*
 .vscode
 .idea
 
-target/
+target
+target/classes/application.properties

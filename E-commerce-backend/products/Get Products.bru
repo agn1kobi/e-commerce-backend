@@ -1,13 +1,13 @@
 meta {
-  name: Health Check
+  name: Get Products
   type: http
-  seq: 2
+  seq: 1
 }
 
 get {
-  url: {{baseurl}}/config/health
+  url: {{baseurl}}/products
   body: none
-  auth: none
+  auth: inherit
 }
 
 settings {
