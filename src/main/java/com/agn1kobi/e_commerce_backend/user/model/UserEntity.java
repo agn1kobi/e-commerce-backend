@@ -1,5 +1,6 @@
-package com.agn1kobi.e_commerce_backend.user;
+package com.agn1kobi.e_commerce_backend.user.model;
 
+import com.agn1kobi.e_commerce_backend.user.types.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

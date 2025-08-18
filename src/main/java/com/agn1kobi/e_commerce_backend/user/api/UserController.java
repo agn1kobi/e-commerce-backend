@@ -1,9 +1,13 @@
-package com.agn1kobi.e_commerce_backend.user;
+package com.agn1kobi.e_commerce_backend.user.api;
 
-import com.agn1kobi.e_commerce_backend.config.JwtService;
+import com.agn1kobi.e_commerce_backend.config.service.JwtService;
+import com.agn1kobi.e_commerce_backend.user.dtos.LoginUserResponseDto;
+import com.agn1kobi.e_commerce_backend.user.dtos.RegisterUserRequestDto;
+import com.agn1kobi.e_commerce_backend.user.model.UserEntity;
+import com.agn1kobi.e_commerce_backend.user.repository.UserRepository;
+import com.agn1kobi.e_commerce_backend.user.types.Role;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,19 +34,11 @@ public class UserController {
         this.authenticationManager = authenticationManager;
     }
 
-    public record RegisterRequest(
-            @NotBlank String username,
-            @Email String email,
-            @NotBlank String password,
-            @NotBlank String role
-    ) {}
-
     public record RegisterResponse(String id, String email, String role) {}
     public record MessageResponse(String message) {}
-    public record TokenResponse(String token, String tokenType) {}
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterUserRequestDto request) {
         if (userRepository.existsByEmail(request.email())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -59,11 +55,11 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<TokenResponse> login(@RequestParam @Email String email, @RequestParam String password) {
+    public ResponseEntity<LoginUserResponseDto> login(@RequestParam @Email String email, @RequestParam String password) {
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         if (auth.isAuthenticated()) {
             String token = jwtService.generateToken(email, Map.of("role", auth.getAuthorities().iterator().next().getAuthority()));
-            return ResponseEntity.ok(new TokenResponse(token, "Bearer"));
+            return ResponseEntity.ok(new LoginUserResponseDto(token, "Bearer"));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }

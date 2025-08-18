@@ -1,5 +1,6 @@
-package com.agn1kobi.e_commerce_backend.user;
+package com.agn1kobi.e_commerce_backend.user.service;
 
+import com.agn1kobi.e_commerce_backend.user.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

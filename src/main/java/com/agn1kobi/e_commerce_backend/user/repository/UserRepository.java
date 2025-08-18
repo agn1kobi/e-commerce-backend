@@ -1,5 +1,6 @@
-package com.agn1kobi.e_commerce_backend.user;
+package com.agn1kobi.e_commerce_backend.user.repository;
 
+import com.agn1kobi.e_commerce_backend.user.model.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
