@@ -1,4 +1,4 @@
-package com.agn1kobi.e_commerce_backend.config;
+package com.agn1kobi.e_commerce_backend.config.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

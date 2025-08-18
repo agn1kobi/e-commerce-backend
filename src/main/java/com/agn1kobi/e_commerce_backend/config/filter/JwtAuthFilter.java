@@ -1,5 +1,6 @@
-package com.agn1kobi.e_commerce_backend.config;
+package com.agn1kobi.e_commerce_backend.config.filter;
 
+import com.agn1kobi.e_commerce_backend.config.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

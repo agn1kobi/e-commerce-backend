@@ -1,4 +1,4 @@
-package com.agn1kobi.e_commerce_backend.config;
+package com.agn1kobi.e_commerce_backend.config.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +15,7 @@ import java.util.Map;
 public class ConfigController {
 
     private final JdbcTemplate jdbcTemplate;
+    private static final String DATABASE = "database";
 
     public ConfigController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -33,15 +34,15 @@ public class ConfigController {
         try {
             Integer result = jdbcTemplate.queryForObject("SELECT 1", Integer.class);
             if (result != null && result == 1) {
-                body.put("database", "OK");
+                body.put(DATABASE, "OK");
                 return ResponseEntity.ok(body);
             } else {
-                body.put("database", "DOWN");
+                body.put(DATABASE, "DOWN");
                 body.put("error", "Unexpected DB response");
                 return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(body);
             }
         } catch (Exception ex) {
-            body.put("database", "DOWN");
+            body.put(DATABASE, "DOWN");
             body.put("error", ex.getMessage());
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(body);
         }

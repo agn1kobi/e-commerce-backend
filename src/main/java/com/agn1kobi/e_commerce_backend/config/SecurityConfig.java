@@ -1,5 +1,6 @@
 package com.agn1kobi.e_commerce_backend.config;
 
+import com.agn1kobi.e_commerce_backend.config.filter.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
