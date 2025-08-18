@@ -48,8 +48,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // In Spring Security 6/Boot 3.5, configuring AuthenticationManager via AuthenticationConfiguration is preferred.
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();

@@ -29,20 +29,24 @@ public class GlobalExceptionHandler {
             MESSAGE, err.getDefaultMessage() == null ? "Invalid value" : err.getDefaultMessage()
         ))
                 .toList();
-        Map<String, Object> body = new HashMap<>();
+
+    Map<String, Object> body = new HashMap<>();
+
     body.put(ERRORS, errors);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(body);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Map<String, Object>> handleConstraintViolation(ConstraintViolationException ex) {
-    List<Map<String, String>> errors = ex.getConstraintViolations().stream()
+        List<Map<String, String>> errors = ex.getConstraintViolations().stream()
         .map(v -> Map.of(
             FIELD, v.getPropertyPath() == null ? "" : v.getPropertyPath().toString(),
             MESSAGE, v.getMessage() == null ? "Invalid value" : v.getMessage()
         ))
                 .toList();
-        Map<String, Object> body = new HashMap<>();
+
+    Map<String, Object> body = new HashMap<>();
+
     body.put(ERRORS, errors);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(body);
     }
@@ -50,7 +54,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({HttpMessageNotReadableException.class, BindException.class})
     public ResponseEntity<Map<String, Object>> handleMalformedRequest(Exception ex) {
         Map<String, Object> body = new HashMap<>();
-    body.put(MESSAGE, MALFORMED_REQUEST);
+
+        body.put(MESSAGE, MALFORMED_REQUEST);
+        
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(body);
     }
 }

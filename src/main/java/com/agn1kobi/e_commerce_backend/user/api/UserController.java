@@ -42,14 +42,18 @@ public class UserController {
         if (userRepository.existsByEmail(request.email())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+
         Role role = Role.valueOf(request.role().toUpperCase());
+
         UserEntity entity = UserEntity.builder()
                 .username(request.username())
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .role(role)
                 .build();
+
         UserEntity saved = userRepository.save(entity);
+
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(new RegisterResponse(saved.getId().toString(), saved.getEmail(), saved.getRole().name()));
     }
@@ -57,10 +61,12 @@ public class UserController {
     @GetMapping("/login")
     public ResponseEntity<LoginUserResponseDto> login(@RequestParam @Email String email, @RequestParam String password) {
         Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+
         if (auth.isAuthenticated()) {
             String token = jwtService.generateToken(email, Map.of("role", auth.getAuthorities().iterator().next().getAuthority()));
             return ResponseEntity.ok(new LoginUserResponseDto(token, "Bearer"));
         }
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

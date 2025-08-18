@@ -30,13 +30,16 @@ public class ProductController {
 	) {
 		int safePage = Math.max(page, 0);
 		int safeSize = Math.clamp(size, 1, 100);
+
 		Pageable pageable = PageRequest.of(safePage, safeSize);
+
 		return productService.getAllProducts(pageable);
 	}
 
 	@GetMapping("/{uuid}")
 	public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("uuid") UUID uuid) {
 		Optional<ProductResponseDto> dto = productService.getProduct(uuid);
+
 		return dto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
@@ -54,6 +57,7 @@ public class ProductController {
 	@PatchMapping("/{uuid}")
 	public ResponseEntity<Void> updateProduct(@PathVariable("uuid") UUID uuid, @Valid @RequestBody UpdateProductRequestDto request) {
 		ProductService.UpdateResult result = productService.updateProduct(uuid, request);
+
 		return switch (result) {
 			case UPDATED -> ResponseEntity.noContent().build();
 			case NOT_FOUND -> ResponseEntity.notFound().build();

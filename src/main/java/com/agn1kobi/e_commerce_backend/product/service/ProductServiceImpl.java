@@ -61,11 +61,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public UpdateResult updateProduct(UUID id, UpdateProductRequestDto request) {
         Optional<ProductEntity> maybe = productRepository.findById(id);
+
         if (maybe.isEmpty()) return UpdateResult.NOT_FOUND;
         ProductEntity entity = maybe.get();
 
         applyUpdate(request, entity);
         productRepository.save(entity);
+
         return UpdateResult.UPDATED;
     }
 
