@@ -1,6 +1,7 @@
 package com.agn1kobi.e_commerce_backend.product.model;
 
 
+import com.agn1kobi.e_commerce_backend.common.model.Auditable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "products",  uniqueConstraints = {@UniqueConstraint(name = "uk_on_product_name", columnNames = "product_name")})
-public class ProductEntity {
+public class ProductEntity extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
