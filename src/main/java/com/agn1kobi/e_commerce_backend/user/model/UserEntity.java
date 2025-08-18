@@ -1,5 +1,6 @@
 package com.agn1kobi.e_commerce_backend.user.model;
 
+import com.agn1kobi.e_commerce_backend.common.model.Auditable;
 import com.agn1kobi.e_commerce_backend.user.types.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(name = "uk_users_email", columnNames = {"email"})
 })
-public class UserEntity implements UserDetails {
+public class UserEntity extends Auditable implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

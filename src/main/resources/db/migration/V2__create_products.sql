@@ -47,15 +47,3 @@ BEGIN
             ADD CONSTRAINT chk_products_tax_non_negative CHECK (tax >= 0);
     END IF;
 END $$;
-
--- Trigger to auto-update updated_at for products
-DO $$ BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_trigger WHERE tgname = 'trg_products_updated_at'
-    ) THEN
-        CREATE TRIGGER trg_products_updated_at
-        BEFORE UPDATE ON products
-        FOR EACH ROW
-        EXECUTE FUNCTION set_updated_at();
-    END IF;
-END $$;

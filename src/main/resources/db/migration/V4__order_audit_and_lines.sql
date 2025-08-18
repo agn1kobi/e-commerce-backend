@@ -13,17 +13,5 @@ CREATE TABLE IF NOT EXISTS order_lines (
         deleted_at TIMESTAMPTZ
 );
 
--- Trigger to auto-update updated_at for order_lines
-DO $$ BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM pg_trigger WHERE tgname = 'trg_order_lines_updated_at'
-    ) THEN
-        CREATE TRIGGER trg_order_lines_updated_at
-        BEFORE UPDATE ON order_lines
-        FOR EACH ROW
-        EXECUTE FUNCTION set_updated_at();
-    END IF;
-END $$;
-
 CREATE INDEX IF NOT EXISTS idx_order_lines_order_id ON order_lines(order_id);
 CREATE INDEX IF NOT EXISTS idx_order_lines_product_id ON order_lines(product_id);
