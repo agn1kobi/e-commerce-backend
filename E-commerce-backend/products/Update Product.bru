@@ -1,0 +1,26 @@
+meta {
+  name: Update Product
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseurl}}/products/:uuid
+  body: json
+  auth: inherit
+}
+
+params:path {
+  uuid: 5804a22c-a6e9-47ae-b4e1-eb0e34f3cbbb
+}
+
+body:json {
+  {
+    "price":5,
+    "description":"A bag of sugar"
+  }
+}
+
+settings {
+  encodeUrl: true
+}
