@@ -1,7 +1,7 @@
 package com.agn1kobi.e_commerce_backend.user.model;
 
 import com.agn1kobi.e_commerce_backend.common.model.Auditable;
-import com.agn1kobi.e_commerce_backend.user.types.Role;
+import com.agn1kobi.e_commerce_backend.common.types.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -47,13 +47,13 @@ public class UserEntity extends Auditable implements UserDetails{
     }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() { return getUpdatedAt() != null; }
 
     @Override
     public boolean isAccountNonLocked() { return true; }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
+    public boolean isCredentialsNonExpired() { return true;}
 
     @Override
     public boolean isEnabled() { return true; }
