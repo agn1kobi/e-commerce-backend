@@ -1,6 +1,5 @@
-package com.agn1kobi.e_commerce_backend.config;
+package com.agn1kobi.e_commerce_backend.config.service;
 
-import com.agn1kobi.e_commerce_backend.config.service.JwtService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

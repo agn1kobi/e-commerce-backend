@@ -1,10 +1,10 @@
-package com.agn1kobi.e_commerce_backend.product;
+package com.agn1kobi.e_commerce_backend.product.service;
 
+import com.agn1kobi.e_commerce_backend.common.types.Result;
 import com.agn1kobi.e_commerce_backend.product.dtos.CreateProductRequestDto;
 import com.agn1kobi.e_commerce_backend.product.dtos.UpdateProductRequestDto;
 import com.agn1kobi.e_commerce_backend.product.model.ProductEntity;
 import com.agn1kobi.e_commerce_backend.product.repository.ProductRepository;
-import com.agn1kobi.e_commerce_backend.product.service.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,16 +35,16 @@ class ProductServiceImplTest {
     @Test
     void createProduct_conflictOnDuplicateName() {
         when(repo.existsByProductName("Widget")).thenReturn(true);
-        boolean created = service.createProduct(new CreateProductRequestDto("Widget", 1, 10.0f, 5.0f, null));
-        assertThat(created).isFalse();
+        Result created = service.createProduct(new CreateProductRequestDto("Widget", 1, 10.0f, 5.0f, null));
+        assertThat(created).isEqualTo(Result.FAILURE);
         verify(repo, never()).save(any());
     }
 
     @Test
     void createProduct_success() {
         when(repo.existsByProductName("Widget")).thenReturn(false);
-        boolean created = service.createProduct(new CreateProductRequestDto("Widget", 5, 10.0f, 5.0f, "desc"));
-        assertThat(created).isTrue();
+        Result created = service.createProduct(new CreateProductRequestDto("Widget", 5, 10.0f, 5.0f, "desc"));
+        assertThat(created).isEqualTo(Result.SUCCESS);
         verify(repo).save(any(ProductEntity.class));
     }
 
@@ -53,7 +53,7 @@ class ProductServiceImplTest {
         UUID id = UUID.randomUUID();
         when(repo.findById(id)).thenReturn(Optional.empty());
         var result = service.updateProduct(id, new UpdateProductRequestDto(null, null, null, null));
-        assertThat(result).isEqualTo(com.agn1kobi.e_commerce_backend.product.service.ProductService.UpdateResult.NOT_FOUND);
+        assertThat(result).isEqualTo(Result.FAILURE);
     }
 
     @Test
@@ -61,7 +61,7 @@ class ProductServiceImplTest {
         UUID id = UUID.randomUUID();
         when(repo.findById(id)).thenReturn(Optional.of(ProductEntity.builder().id(id).quantity(1).price(1.0f).tax(0f).build()));
         var result = service.updateProduct(id, new UpdateProductRequestDto(10, 20.0f, 15.0f, "new"));
-        assertThat(result).isEqualTo(com.agn1kobi.e_commerce_backend.product.service.ProductService.UpdateResult.UPDATED);
+        assertThat(result).isEqualTo(Result.SUCCESS);
         verify(repo).save(any(ProductEntity.class));
     }
 }
