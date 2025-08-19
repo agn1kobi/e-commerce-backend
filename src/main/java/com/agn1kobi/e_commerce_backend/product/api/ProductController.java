@@ -1,5 +1,6 @@
 package com.agn1kobi.e_commerce_backend.product.api;
 
+import com.agn1kobi.e_commerce_backend.common.types.Result;
 import com.agn1kobi.e_commerce_backend.product.dtos.CreateProductRequestDto;
 import com.agn1kobi.e_commerce_backend.product.dtos.PaginatedResponseDto;
 import com.agn1kobi.e_commerce_backend.product.dtos.ProductResponseDto;
@@ -46,22 +47,21 @@ public class ProductController {
 	@PostMapping()
 	public ResponseEntity<Void> createProduct(@Valid @RequestBody CreateProductRequestDto request) {
 
-		boolean created = productService.createProduct(request);
-		if (!created) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
+		Result result = productService.createProduct(request);
 
-		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return switch (result) {
+            case SUCCESS -> ResponseEntity.status(HttpStatus.CREATED).build();
+            case FAILURE -> ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        };
 	}
 
 	@PatchMapping("/{uuid}")
 	public ResponseEntity<Void> updateProduct(@PathVariable("uuid") UUID uuid, @Valid @RequestBody UpdateProductRequestDto request) {
-		ProductService.UpdateResult result = productService.updateProduct(uuid, request);
+		Result result = productService.updateProduct(uuid, request);
 
 		return switch (result) {
-			case UPDATED -> ResponseEntity.noContent().build();
-			case NOT_FOUND -> ResponseEntity.notFound().build();
-			case CONFLICT -> ResponseEntity.status(HttpStatus.CONFLICT).build();
+            case SUCCESS -> ResponseEntity.noContent().build();
+            case FAILURE -> ResponseEntity.status(HttpStatus.CONFLICT).build();
 		};
 	}
 }

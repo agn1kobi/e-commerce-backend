@@ -1,6 +1,7 @@
 package com.agn1kobi.e_commerce_backend.product.listener;
 
 import com.agn1kobi.e_commerce_backend.order.event.OrderCreatedEvent;
+import com.agn1kobi.e_commerce_backend.order.dtos.OrderLineDto;
 import com.agn1kobi.e_commerce_backend.product.model.ProductEntity;
 import com.agn1kobi.e_commerce_backend.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,14 +15,14 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class ProductInventoryListener {
+public class ProductListener {
 
     private final ProductRepository productRepository;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onOrderCreated(final OrderCreatedEvent event) {
-        for (OrderCreatedEvent.OrderLine line : event.lines()) {
+        for (OrderLineDto line : event.lines()) {
             Optional<ProductEntity> maybe = productRepository.findById(line.productId());
             if (maybe.isEmpty()) continue;
             ProductEntity product = maybe.get();

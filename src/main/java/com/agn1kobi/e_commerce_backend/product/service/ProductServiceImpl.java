@@ -1,11 +1,12 @@
 package com.agn1kobi.e_commerce_backend.product.service;
 
-import com.agn1kobi.e_commerce_backend.product.dtos.CreateProductRequestDto;
+import com.agn1kobi.e_commerce_backend.common.types.Result;
 import com.agn1kobi.e_commerce_backend.product.dtos.PaginatedResponseDto;
+import com.agn1kobi.e_commerce_backend.product.dtos.CreateProductRequestDto;
 import com.agn1kobi.e_commerce_backend.product.dtos.ProductResponseDto;
+import com.agn1kobi.e_commerce_backend.product.dtos.UpdateProductRequestDto;
 import com.agn1kobi.e_commerce_backend.product.model.ProductEntity;
 import com.agn1kobi.e_commerce_backend.product.repository.ProductRepository;
-import com.agn1kobi.e_commerce_backend.product.dtos.UpdateProductRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,10 +42,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean createProduct(CreateProductRequestDto request) {
-        // Unique by productName at DB level; check early for 409
+    public Result createProduct(CreateProductRequestDto request) {
         if (productRepository.existsByProductName(request.productName())) {
-            return false;
+            return Result.FAILURE;
         }
 
         ProductEntity entity = ProductEntity.builder()
@@ -55,20 +55,20 @@ public class ProductServiceImpl implements ProductService {
                 .description(request.description())
                 .build();
         productRepository.save(entity);
-        return true;
+        return Result.SUCCESS;
     }
 
     @Override
-    public UpdateResult updateProduct(UUID id, UpdateProductRequestDto request) {
+    public Result updateProduct(UUID id, UpdateProductRequestDto request) {
         Optional<ProductEntity> maybe = productRepository.findById(id);
 
-        if (maybe.isEmpty()) return UpdateResult.NOT_FOUND;
+        if (maybe.isEmpty()) return Result.FAILURE;
         ProductEntity entity = maybe.get();
 
         applyUpdate(request, entity);
         productRepository.save(entity);
 
-        return UpdateResult.UPDATED;
+        return Result.SUCCESS;
     }
 
 
