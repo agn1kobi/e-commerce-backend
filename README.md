@@ -9,7 +9,6 @@ I have tried to follow a modulith structure.
 to that end, I have:
 ```
 backend-service
-+--inventory
 +--order
 +--product
 +--user
