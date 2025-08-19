@@ -3,11 +3,8 @@ CREATE TABLE IF NOT EXISTS order_lines (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
         product_id UUID NOT NULL,
-        product_name VARCHAR(255) NOT NULL,
-        quantity INTEGER NOT NULL,
-        unit_price NUMERIC(19,4) NOT NULL,
-        tax_pct NUMERIC(9,4) NOT NULL,
-        line_total NUMERIC(19,4) NOT NULL,
+        quantity integer NOT NULL,
+        line_total REAL NOT NULL,
         created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
         updated_at TIMESTAMPTZ,
         deleted_at TIMESTAMPTZ

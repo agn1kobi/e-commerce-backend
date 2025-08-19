@@ -1,8 +1,9 @@
 package com.agn1kobi.e_commerce_backend.order.api;
 
+import com.agn1kobi.e_commerce_backend.common.types.RequestResult;
 import com.agn1kobi.e_commerce_backend.order.dtos.CreateOrderRequestDto;
 import com.agn1kobi.e_commerce_backend.order.dtos.CreateOrderResponseDto;
-import com.agn1kobi.e_commerce_backend.order.dtos.OrderDetailsResponseDto;
+import com.agn1kobi.e_commerce_backend.order.dtos.OrderResponseDto;
 import com.agn1kobi.e_commerce_backend.order.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +25,21 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<CreateOrderResponseDto> createOrder(@Valid @RequestBody CreateOrderRequestDto request) {
-        OrderService.CreateOutcome outcome = orderService.createOrderWithResponse(request);
-        return switch (outcome.result()) {
-            case CREATED -> ResponseEntity.status(HttpStatus.CREATED).body(outcome.body());
-            case NOT_FOUND, INVALID_QUANTITY -> ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        RequestResult<CreateOrderResponseDto> result = orderService.createOrderWithResponse(request);
+
+        return switch (result.result()) {
+            case SUCCESS -> ResponseEntity.status(HttpStatus.CREATED).body(result.response());
+            case FAILURE -> ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         };
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDetailsResponseDto> getOrder(@PathVariable("orderId") java.util.UUID orderId) {
-        return orderService.getOrderDetails(orderId)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<OrderResponseDto> getOrder(@PathVariable("orderId") java.util.UUID orderId) {
+        RequestResult<OrderResponseDto> result = orderService.getOrderDetails(orderId);
+
+        return switch (result.result()) {
+            case SUCCESS -> ResponseEntity.status(HttpStatus.OK).body(result.response());
+            case FAILURE -> ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        };
     }
 }

@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 
 public record CreateOrderRequestDto(
-        @NotEmpty List<@Valid OrderItemRequestDto> items
+        @NotEmpty List<@Valid OrderRequestDto> items
 ) {}

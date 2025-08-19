@@ -4,7 +4,6 @@ import com.agn1kobi.e_commerce_backend.common.model.Auditable;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -20,6 +19,6 @@ public class OrderEntity extends Auditable {
     @Column(nullable = false, updatable = false)
     private UUID id;
 
-    @Column(nullable = false, precision = 19, scale = 4)
-    private BigDecimal totalPrice;
+    @Column(nullable = false)
+    private float totalPrice;
 }
